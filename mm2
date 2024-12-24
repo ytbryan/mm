@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+import typer
+import os
+import subprocess
+import glob
+
+def convert_with_markitdown(file: str, output_name: str):
+    """Converts a file to markdown using markitdown."""
+    with open(output_name, "w") as output_file:
+        subprocess.run(["markitdown", file], stdout=output_file, text=True, check=True)
+
+def convert_with_pandoc(file: str, output_name: str):
+    """Converts a file to markdown using pandoc."""
+    subprocess.run(["pandoc", file, "-o", output_name], text=True, check=True)
+
+def main(
+    patterns: str = typer.Argument(..., help="Single file or pattern for matching files."),
+    tool: str = typer.Option("markitdown", help="Conversion tool: 'markitdown' or 'pandoc'")):
+    """Converts documents to markdown format using the specified tool."""
+    import shlex
+    # Handle multiple arguments as patterns
+    patterns = shlex.split(patterns)  # Properly handle spaces in filenames
+    files = []
+
+    for pattern in patterns:
+        if os.path.isfile(pattern):
+            files.append(pattern)
+        else:
+            files.extend(glob.glob(pattern))
+
+    if not files:
+        typer.echo("No matching files found.")
+        return
+
+    for file in files:
+        try:
+            # Extract the base name (without extension) and append '.md'
+            base_name = os.path.splitext(file)[0]
+            output_name = f"{base_name}.md"
+
+            # Choose conversion tool
+            if tool == "markitdown":
+                convert_with_markitdown(file, output_name)
+            elif tool == "pandoc":
+                convert_with_pandoc(file, output_name)
+            else:
+                typer.echo(f"Error: Unsupported tool '{tool}'", err=True)
+                return
+
+            typer.echo(f"Conversion successful! Saved as {output_name}")
+        except subprocess.CalledProcessError as e:
+            typer.echo(f"Error processing {file}: {e.stderr}", err=True)
+        except FileNotFoundError:
+            typer.echo(f"Error: File '{file}' not found.", err=True)
+
+if __name__ == "__main__":
+    typer.run(main)

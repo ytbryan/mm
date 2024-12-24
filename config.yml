@@ -1,0 +1,12 @@
+# set the output format that you want
+output_format: md
+
+# set the input format that you want
+input_format: docx, doc
+
+# pick the default converter
+default: markitdown #pandoc
+
+# pick the default output path
+
+default_path: ./
