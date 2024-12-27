@@ -1,5 +1,18 @@
 # mm
-Simple wrapper around markitdown and possibly more. Save time. 
+Simple wrapper around markitdown and possibly more. Save time. Pronounce as mmm! 
+
+# installation
+
+```
+pip install git+https://github.com/ytbryan/mm
+```
+
+if you use uv
+```
+uv venv
+source .venv/bin/activate
+uv pip install git+https://github.com/ytbryan/mm
+```
 
 # usage
 
