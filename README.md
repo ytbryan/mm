@@ -6,6 +6,7 @@ Simple wrapper around markitdown and possibly more. Save time. Pronounce as mmm!
 # installation
 
 ```
+pip install markitdown
 pip install git+https://github.com/ytbryan/mm
 ```
 
