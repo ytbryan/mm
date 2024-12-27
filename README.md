@@ -1,3 +1,5 @@
+![demo](images/1.gif)
+
 # mm
 Simple wrapper around markitdown and possibly more. Save time. Pronounce as mmm! 
 
